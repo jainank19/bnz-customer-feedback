@@ -1,0 +1,130 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Customer Feedback Controller",
+      "description": "CUstomer feedback APIs"
+    }
+  ],
+  "paths": {
+    "/customer/feedback": {
+      "post": {
+        "tags": [
+          "Customer Feedback Controller"
+        ],
+        "operationId": "receiveCustomerFeedback",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerFeedbackRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerFeedbackResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/{feedbackId}": {
+      "get": {
+        "tags": [
+          "Customer Feedback Controller"
+        ],
+        "operationId": "fetchCustomerFeedback",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchCustomerFeedbackResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CustomerFeedbackRequest": {
+        "type": "object",
+        "properties": {
+          "comments": {
+            "type": "string"
+          },
+          "ratings": {
+            "type": "string"
+          },
+          "emailAddress": {
+            "type": "string"
+          }
+        }
+      },
+      "CustomerFeedbackResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "FetchCustomerFeedbackResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "ratings": {
+            "type": "string"
+          },
+          "emailAddress": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

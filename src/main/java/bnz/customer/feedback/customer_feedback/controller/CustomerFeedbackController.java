@@ -5,6 +5,7 @@ import bnz.customer.feedback.customer_feedback.dto.response.CustomerFeedbackResp
 import bnz.customer.feedback.customer_feedback.dto.response.FetchCustomerFeedbackResponse;
 import bnz.customer.feedback.customer_feedback.exception.CustomerFeedbackException;
 import bnz.customer.feedback.customer_feedback.service.CustomerFeedbackService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
+@RestController
+@RequestMapping("/customer")
+@Tag(name="Customer Feedback Controller", description = "CUstomer feedback APIs")
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerFeedbackController {
