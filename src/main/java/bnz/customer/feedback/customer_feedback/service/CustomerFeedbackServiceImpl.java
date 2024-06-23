@@ -7,6 +7,7 @@ import bnz.customer.feedback.customer_feedback.exception.CustomerFeedbackExcepti
 import bnz.customer.feedback.customer_feedback.mapper.CustomerFeedbackDAOMapper;
 import bnz.customer.feedback.customer_feedback.repository.CustomerFeedbackDAO;
 import bnz.customer.feedback.customer_feedback.repository.CustomerFeedbackRepoJPA;
+import bnz.customer.feedback.customer_feedback.service.message.DispatcherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class CustomerFeedbackServiceImpl implements CustomerFeedbackService{
     @Autowired
     private CustomerFeedbackRepoJPA customerFeedbackRepo;
     @Autowired private CustomerFeedbackDAOMapper customerFeedbackDAOMapper;
+    @Autowired private DispatcherService dispatcherService;
 
     @Override
     public CustomerFeedbackResponse receiveCustomerFeedback(CustomerFeedbackRequest customerFeedbackRequest) {
@@ -26,6 +28,11 @@ public class CustomerFeedbackServiceImpl implements CustomerFeedbackService{
         try {
             var customerFeedbackDAO = customerFeedbackDAOMapper.mapCustomerFeedbackDBRequest(customerFeedbackRequest);
             customerFeedbackRepo.insert(customerFeedbackDAO);
+            if(Integer.parseInt(customerFeedbackRequest.getRatings()) == 1){
+
+
+                dispatcherService.sendMessage("Customer feedback for " +customerFeedbackRequest.getEmailAddress()+ "received");
+            }
 
             return CustomerFeedbackResponse.builder()
                     .statusCode(HttpStatus.valueOf(201).toString())
